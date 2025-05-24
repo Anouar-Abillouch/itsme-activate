@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="utf-8">
+    <title>Persoonlijke Gegevens | Mijn itsme®</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        @font-face {
+            font-family: Roboto;
+            font-style: normal;
+            font-display: swap;
+            font-weight: 400;
+            src: url(assets/roboto-latin-400-normal.woff2) format("woff2"),
+                url(assets/roboto-latin-400-normal.woff) format("woff");
+        }
+
+        /* … de andere @font-face rules … */
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Roboto, sans-serif;
+            background-color: #fff;
+            color: #212529;
+        }
+
+        /* curved achtergrond */
+        .fui-background {
+            background: #fff;
+        }
+
+        @media (min-width: 1181px) {
+            .fui-background {
+                background-color: #edf0eb;
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: calc(50% + 60px);
+                right: 0;
+                z-index: -2;
+            }
+
+            .fui-curve {
+                background: url(/assets/curved-background-new.svg) left top no-repeat;
+                background-size: cover;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                width: 180px;
+                z-index: -1;
+            }
+        }
+
+        .tpl-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* header */
+        .header {
+            display: flex;
+            width: 100%;
+            margin-inline: 32px;
+            /* meer ruimte links+rechts */
+            margin-block-start: 16px;
+            position: relative;
+        }
+
+        .header-image {
+            margin-left: 16px;
+            /* logo meer naar rechts */
+            width: 64px;
+            height: 64px;
+            flex-shrink: 0;
+        }
+
+        .header-image a {
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .header-locales {
+            align-self: center;
+            /* plaats hier eventueel je dropdown */
+        }
+
+        /* main grid & spacing */
+        main {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            column-gap: 24px;
+            margin-inline: 16px;
+            margin-block-start: 20px;
+            /* minder ruimte boven */
+            flex: 1;
+        }
+
+        @media (min-width: 744px) {
+            main {
+                grid-template-columns: repeat(12, 1fr);
+                margin-inline: 64px;
+            }
+        }
+
+        @media (min-width: 1181px) {
+            main {
+                place-items: center;
+                margin-inline: 64px;
+                margin-block-end: 24px;
+            }
+        }
+
+        /* primary content */
+        .im-content-primary {
+            grid-column-end: span 4;
+            margin-inline: 16px;
+            margin-block-start: 20px;
+            /* minder ruimte boven */
+        }
+
+        @media (min-width: 744px) {
+            .im-content-primary {
+                grid-column: span 12;
+                margin-inline: auto;
+                width: 75%;
+            }
+        }
+
+        @media (min-width: 1181px) {
+            .im-content-primary {
+                grid-column: 2/span 6;
+                max-width: 504px;
+            }
+        }
+
+        /* typografie & form */
+        h1 {
+            margin-block-end: 16px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        h1+p {
+            margin-bottom: 32px;
+            font-size: 18px;
+            line-height: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .form-group input {
+            width: 100%;
+            height: 52px;
+            padding: 12px 20px;
+            border: 1px solid #747474;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+
+        #privacy {
+            font-size: 18px;
+            line-height: 28px;
+            margin-bottom: 24px;
+        }
+
+        #privacy a {
+            color: #0d6efd;
+            text-decoration: underline;
+        }
+
+        .btn-container {
+            margin-top: 30px;
+        }
+
+        .btn {
+            width: 100%;
+            height: 52px;
+            background-color: #22ba78;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #1a8e5c;
+        }
+
+        /* modal overlay */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .modal h2 {
+            margin-top: 0;
+            font-size: 24px;
+            color: #FF4C00;
+        }
+
+        .modal p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #212529;
+            margin: 1rem 0 2rem;
+        }
+
+        .modal .close-btn {
+            background: #22ba78;
+            color: #fff;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .modal .close-btn:hover {
+            background: #1a8e5c;
+        }
+
+        /* secondary panel */
+        .im-content-secondary {
+            display: none;
+        }
+
+        @media (min-width: 1181px) {
+            .im-content-secondary {
+                display: block;
+                grid-column-start: 9;
+                grid-column-end: span 4;
+            }
+        }
+
+        .im-content-secondary div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .im-content-secondary img {
+            width: 208px;
+            margin-bottom: 56px;
+        }
+
+        .im-content-secondary p {
+            font-size: 16px;
+            line-height: 24px;
+            margin-inline: 64px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="fui-background">
+        <div class="fui-curve"></div>
+    </div>
+
+    <div class="tpl-container">
+        <header>
+            <div class="header">
+                <div class="header-image">
+                    <a href="https://www.itsme-id.com/nl-BE" target="_blank" aria-label="itsme homepage">
+                        <img src="/assets/itsme-logo.svg" alt="itsme logo">
+                    </a>
+                </div>
+                <div class="header-locales">
+                    <!-- taal-switcher hier -->
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="im-content-primary">
+                <h1>Vul je persoonlijke gegevens in</h1>
+                <p>Geef je volledige naam, rijksregisternummer en gewenste pincode in om je itsme®-account te activeren.
+                </p>
+                <form id="personalDataForm">
+                    <div class="form-group">
+                        <label for="firstName">Voornaam</label>
+                        <input type="text" id="firstName" name="firstName" placeholder="Je voornaam" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Achternaam</label>
+                        <input type="text" id="lastName" name="lastName" placeholder="Je achternaam" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nationalNumber">Rijksregisternummer</label>
+                        <input type="text" id="nationalNumber" name="nationalNumber" placeholder="00.00.00-000.00"
+                            maxlength="15" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{2}-[0-9]{3}\.[0-9]{2}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pinCode">Pincode (4 cijfers)</label>
+                        <input type="password" id="pinCode" name="pinCode" placeholder="••••" maxlength="4"
+                            pattern="[0-9]{4}" required>
+                    </div>
+                    <p id="privacy">
+                        Door verder te gaan, ga je akkoord met het
+                        <a href="https://www.itsme-id.com/nl-BE/legal/privacy-statement" target="_blank">
+                            privacybeleid
+                        </a>.
+                    </p>
+                    <div class="btn-container">
+                        <button type="submit" class="btn">Account activeren</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="im-content-secondary">
+                <div>
+                    <img src="/assets/EnterPhoneNumber.svg" alt="">
+                    <p>Vul je persoonlijke gegevens in om je itsme®-account te voltooien en veilig te identificeren.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Professionele modal popup -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h2>Account Geactiveerd</h2>
+            <p>
+                Hartelijk dank voor uw registratie! Uw itsme®-account is succesvol
+                geactiveerd en klaar voor gebruik. U kunt nu veilig en eenvoudig inloggen
+                en al uw digitale diensten beheren.
+            </p>
+            <a href="https://www.itsme-id.com/nl-BE" class="close-btn">Sluiten</a>
+        </div>
+    </div>
+
+    <script>
+        // Bij klikken op "Account activeren", tonen we de professionele modal
+        const form = document.getElementById('personalDataForm');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault(); // voorkom direct verzenden
+            modalOverlay.style.display = 'flex';
+        });
+
+        modalCloseBtn.addEventListener('click', function () {
+            modalOverlay.style.display = 'none';
+            // als je wilt dat het formulier daarna alsnog verzendt:
+            // form.submit();
+        });
+    </script>
+</body>
+
+</html>
