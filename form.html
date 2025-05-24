@@ -200,6 +200,9 @@
             font-size: 18px;
             font-weight: 500;
             cursor: pointer;
+            text-align: center;
+            line-height: 52px;
+            display: inline-block;
         }
 
         .btn:hover:enabled {
@@ -255,9 +258,26 @@
             font-size: 16px;
             border-radius: 6px;
             cursor: pointer;
+            margin-right: 10px;
         }
 
         .modal .close-btn:hover {
+            background: #1a8e5c;
+        }
+
+        .modal .goto-btn {
+            background: #22ba78;
+            color: #fff;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .modal .goto-btn:hover {
             background: #1a8e5c;
         }
 
@@ -383,6 +403,8 @@
                         en al uw digitale diensten beheren.
                     </p>
                     <button class="close-btn" id="closeModalBtn">Sluiten</button>
+                    <a href="https://www.itsme-id.com/nl-BE" target="_blank" rel="noopener noreferrer"
+                        class="goto-btn">Ga naar startpagina</a>
                 </div>
             </div>
         </main>
